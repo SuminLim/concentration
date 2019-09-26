@@ -1,16 +1,16 @@
 {
-  "name": "react-boilerplate",
-  "version": "4.0.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "name": "concentration",
+  "version": "0.0.0",
+  "description": "카드 짝 맞추기가 어렵다고..?",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "git://github.com/SuminLim/concentration.git"
   },
   "engines": {
     "npm": ">=5",
     "node": ">=8.15.1"
   },
-  "author": "Max Stoiber",
+  "author": "Jason Lim",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
@@ -207,5 +207,12 @@
     "webpack-hot-middleware": "2.25.0",
     "webpack-pwa-manifest": "4.0.0",
     "whatwg-fetch": "3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/SuminLim/concentration/issues"
+  },
+  "homepage": "https://github.com/SuminLim/concentration",
+  "directories": {
+    "doc": "docs"
   }
 }
