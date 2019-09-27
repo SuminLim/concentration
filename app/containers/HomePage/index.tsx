@@ -14,22 +14,33 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Card from 'components/Card';
 import styled from 'styled-components';
+import TopBar from 'components/TopBar';
 
-const Wrapper = styled.div`
+const CardListWrapper = styled.div`
   display: flex;
+  padding: 30px;
 `;
 
-export default function HomePage() {
-  return (
-    <div>
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
-      <Wrapper>
-        <Card>
-          A
-        </Card>
-      </Wrapper>
-    </div>
-  );
+class HomePage extends React.Component {
+  private handleRestart() {
+    // TODO 카드 다시 섞고 시간 초기화 하는 액션 호출
+  }
+
+  public render() {
+    return (
+      <div>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+        <TopBar onClickStart={this.handleRestart}/>
+        <CardListWrapper>
+          <Card>
+            A
+          </Card>
+        </CardListWrapper>
+      </div>
+    );
+  }
 }
+
+export default HomePage;
