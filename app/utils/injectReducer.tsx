@@ -1,8 +1,8 @@
-import hoistNonReactStatics from 'hoist-non-react-statics';
+const hoistNonReactStatics = require('hoist-non-react-statics');
+import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import { useStore } from 'react-redux';
-import { InjectReducerParams, LifeStore } from 'types';
-import { getInjectors } from './reducerInjectors';
+
+import getInjectors from './reducerInjectors';
 
 /**
  * Dynamically injects a reducer
@@ -11,46 +11,30 @@ import { getInjectors } from './reducerInjectors';
  * @param {function} reducer A reducer that will be injected
  *
  */
-
-export default function hocWithReducer<P>({
-                                            key,
-                                            reducer,
-                                          }: InjectReducerParams) {
-  function wrap(
-    WrappedComponent: React.ComponentType<P>,
-  ): React.ComponentType<P> {
-    // dont wanna give access to HOC. Child only
+export default function injectReducer<P>({ key, reducer }: {key: string, reducer: Function}): (WrappedComponent: React.ComponentType<P>) => React.ComponentType<P> {
+  return (WrappedComponent) => {
     class ReducerInjector extends React.Component<P> {
-      public static WrappedComponent = WrappedComponent;
-      public static displayName = `withReducer(${WrappedComponent.displayName ||
-      WrappedComponent.name ||
-      'Component'})`;
+      static WrappedComponent = WrappedComponent;
+      static displayName = `withReducer(${WrappedComponent.displayName ||
+        WrappedComponent.name ||
+        'Component'})`;
+      static contextTypes = {
+        store: PropTypes.object.isRequired,
+      };
 
-      constructor(props: any, context: any) {
-        super(props, context);
+      componentWillMount() {
+        const { injectReducer } = this.injectors;
 
-        getInjectors(context.store).injectReducer(key, reducer);
+        injectReducer(key, reducer);
       }
 
-      public render() {
+      injectors = getInjectors(this.context.store);
+
+      render() {
         return <WrappedComponent {...this.props} />;
       }
     }
 
-    return hoistNonReactStatics(ReducerInjector, WrappedComponent) as any;
-  }
-
-  return wrap;
+    return hoistNonReactStatics(ReducerInjector, WrappedComponent);
+  };
 }
-
-const useInjectReducer = ({ key, reducer }: InjectReducerParams) => {
-  const store = useStore() as LifeStore;
-  React.useEffect(
-    () => {
-      getInjectors(store).injectReducer(key, reducer);
-    },
-    [],
-  );
-};
-
-export { useInjectReducer };
