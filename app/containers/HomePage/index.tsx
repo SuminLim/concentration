@@ -12,11 +12,24 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import Card from 'components/Card';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 export default function HomePage() {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <div>
+      <h1>
+        <FormattedMessage {...messages.header} />
+      </h1>
+      <Wrapper>
+        <Card>
+          A
+        </Card>
+      </Wrapper>
+    </div>
   );
 }
