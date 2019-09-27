@@ -1,31 +1,42 @@
 {
-  "extends": ["tslint:latest", "tslint-react", "tslint-react-hooks"],
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-prettier",
+    "tslint-config-airbnb", // tslint + tslint-consistent-codestyle + tslint-eslint-rules + tslint-microsoft-contrib
+    "tslint-react"
+  ],
+  "jsRules": {},
   "rules": {
-    "no-empty-interface": false,
-    "jsx-no-lambda": false,
-    "semicolon": [true, "always", "ignore-bound-class-methods"],
-    "interface-name": false,
-    "object-literal-shorthand": [false, "never"],
-    "indent": [true, "spaces"],
+    "max-line-length": false,
+    "no-boolean-literal-compare": true,
+    "no-conditional-assignment": true,
+    "no-unused-variable": false, // TS2.9부터 deprecated
+    "ordered-imports": true,
     "quotemark": [true, "single", "jsx-double"],
-    "no-var-requires": false,
-    "ordered-imports": false,
-    "no-unused-variable": [false, "react"],
-    "member-ordering": [false],
-    "object-literal-sort-keys": false,
-    "no-shadowed-variable": false,
-    "no-console": [false],
-    "no-consecutive-blank-lines": [false],
-    "no-string-literal": false,
-    "jsx-no-multiline-js": false,
-    "jsx-boolean-value": false,
-    "arrow-parens": [false],
-    "no-implicit-dependencies": false,
-    "no-submodule-imports": false,
-    "no-empty": false,
-    "jsx-alignment": false
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ],
+
+    // tslint-microsoft-contrib
+    "function-name": [
+      true,
+      {
+        "function-regex": "^[\\w\\d]+$",
+        "static-method-regex": "^[\\w\\d]+$"
+      }
+    ],
+    "import-name": false, // import 할 때 file 이름과 변수 이름을 통일하라는 rule
+
+    // tslint-react
+    "jsx-alignment": true,
+    "jsx-boolean-value": [true, "never"],
+    "jsx-no-multiline-js": false
   },
+  "rulesDirectory": [],
   "linterOptions": {
-    "exclude": ["**/*.js"]
+    "exclude": ["node_modules"]
   }
 }
