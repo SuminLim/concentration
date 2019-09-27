@@ -9,12 +9,12 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 
 // Import all the third party stuff
-import { ConnectedRouter } from 'connected-react-router/immutable';
-import FontFaceObserver from 'fontfaceobserver';
-import createHistory from 'history/createBrowserHistory';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import FontFaceObserver from 'fontfaceobserver';
+import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -43,7 +43,6 @@ openSansObserver.load().then(() => {
 
 // Create redux store with history
 const initialState = {};
-const history = require('history').createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app') as HTMLElement;
 
@@ -72,7 +71,6 @@ if (module.hot) {
 }
 // Chunked polyfill for browsers without Intl support
 if (!(window as any).Intl) {
-  // tslint:disable-next-line:ter-arrow-parens
   new Promise(resolve => {
     resolve(import('intl'));
   })
@@ -83,7 +81,6 @@ if (!(window as any).Intl) {
       ]),
     )
     .then(() => render(translationMessages))
-    // tslint:disable-next-line:ter-arrow-parens
     .catch(err => {
       throw err;
     });
