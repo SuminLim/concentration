@@ -1,6 +1,6 @@
-import { Reducer, Store } from 'redux';
 import { RouterState } from 'connected-react-router';
 import { ContainerState as LanguageProviderState } from 'containers/LanguageProvider/types';
+import { Reducer, Store } from 'redux';
 
 export interface LifeStore extends Store {
   injectedReducers: any;
@@ -25,4 +25,5 @@ export interface ApplicationRootState {
   readonly language: LanguageProviderState;
   // for testing purposes
   readonly test: any;
+  readonly home: string;
 }

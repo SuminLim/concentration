@@ -3,10 +3,10 @@ import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 
-import checkStore from './checkStore';
-import createReducer from '../reducers';
-import { InjectedStore } from 'types';
 import { Reducer } from 'redux';
+import { InjectedStore } from 'types';
+import createReducer from '../reducers';
+import checkStore from './checkStore';
 
 export function injectReducerFactory(store: InjectedStore, isValid: boolean = false) {
   // tslint:disable-next-line: only-arrow-functions
