@@ -1,9 +1,9 @@
-import * as React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import * as React from 'react';
 import { useStore } from 'react-redux';
 
+import { InjectSagaParams, LifeStore } from 'types';
 import { getInjectors } from './sagaInjectors';
-import { InjectSagaParams, InjectedStore } from 'types';
 
 /**
  * Dynamically injects a saga, passes component's props as saga arguments
@@ -29,15 +29,15 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
       public injectors: any;
 
       public static displayName = `withSaga(${WrappedComponent.displayName ||
-        WrappedComponent.name ||
-        'Component'})`;
+      WrappedComponent.name ||
+      'Component'})`;
 
       constructor(props: any, context: any) {
         super(props, context);
 
         this.injectors = getInjectors(context.store);
 
-        this.injectors.injectSaga(key, { saga: saga, mode: mode }, this.props);
+        this.injectors.injectSaga(key, { saga, mode }, this.props);
       }
 
       public componentWillUnmount() {
@@ -51,19 +51,23 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
 
     return hoistNonReactStatics(InjectSaga, WrappedComponent) as any;
   }
+
   return wrap;
 }
 
 const useInjectSaga = ({ key, saga, mode }: InjectSagaParams) => {
-  const store = useStore() as InjectedStore;
-  React.useEffect(() => {
-    const injectors = getInjectors(store);
-    injectors.injectSaga(key, { saga: saga, mode: mode });
+  const store = useStore() as LifeStore;
+  React.useEffect(
+    () => {
+      const injectors = getInjectors(store);
+      injectors.injectSaga(key, { saga, mode });
 
-    return () => {
-      injectors.ejectSaga(key);
-    };
-  }, []);
+      return () => {
+        injectors.ejectSaga(key);
+      };
+    },
+    [],
+  );
 };
 
 export { useInjectSaga };

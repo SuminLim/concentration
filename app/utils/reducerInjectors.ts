@@ -4,11 +4,11 @@ import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 
 import { Reducer } from 'redux';
-import { InjectedStore } from 'types';
+import { LifeStore } from 'types';
 import createReducer from '../reducers';
 import checkStore from './checkStore';
 
-export function injectReducerFactory(store: InjectedStore, isValid: boolean = false) {
+export function injectReducerFactory(store: LifeStore, isValid: boolean = false) {
   // tslint:disable-next-line: only-arrow-functions
   return function injectReducer(key: string, reducer: Reducer<object>) {
     if (!isValid) {
@@ -34,7 +34,7 @@ export function injectReducerFactory(store: InjectedStore, isValid: boolean = fa
   };
 }
 
-export function getInjectors(store: InjectedStore) {
+export function getInjectors(store: LifeStore) {
   checkStore(store);
 
   return {
