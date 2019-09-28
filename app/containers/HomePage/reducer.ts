@@ -1,7 +1,8 @@
+import { CardModel } from '../../types/CardModel';
 import { HomePageAction } from './actions';
 import { UPDATE_CARD_LIST } from './constants';
 
-export const initialState = {
+export const initialState: { cardList: CardModel[] } = {
   cardList: [],
 };
 

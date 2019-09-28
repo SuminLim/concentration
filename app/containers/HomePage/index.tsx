@@ -11,7 +11,7 @@
 
 import Card from 'components/Card';
 import TopBar from 'components/TopBar';
-import { shuffle as _shuffle } from 'lodash';
+import { get as _get, shuffle as _shuffle } from 'lodash';
 import React, { useReducer, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
@@ -45,18 +45,30 @@ const CardListWrapper = styled.div`
 
 const HomePage: React.FC<HomePageProps> = ({  }) => {
   const [clickCount, setClickCount] = useState<number>(0);
+  const [openedCardModel, setOpenedCardModel] = useState<CardModel>();
   const [{ cardList }, dispatch] = useReducer(homeReducer, initialState);
 
   function handleRestart() {
     setClickCount(0);
 
-    const cardList: CardModel[] = _shuffle(CARD_SET).map(value => mapCardValueToCardModel(value));
+    const cardList: CardModel[] = _shuffle(CARD_SET).map((value, index) => mapCardValueToCardModel(value, index));
     dispatch({ cardList, type: UPDATE_CARD_LIST });
+  }
+
+  function makeHandleOnClickCard(selectedCard: CardModel) {
+    return () => {
+      setClickCount(clickCount + 1);
+      setOpenedCardModel(selectedCard);
+    };
   }
 
   function renderCardNodeList() {
     return cardList.map((card: CardModel, index) => (
-      <Card key={`${card.value}-${index}`}>
+      <Card
+        key={`${card.value}-${index}`}
+        disabled={card.id === _get(openedCardModel, 'id')}
+        onClick={makeHandleOnClickCard(card)}
+      >
         {card.value}
       </Card>
     ));

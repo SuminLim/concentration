@@ -2,7 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface CardProps {
+  children: string;
 
+  disabled: boolean;
+
+  onClick: () => void;
 }
 
 interface CardState {
@@ -39,13 +43,25 @@ class Card extends React.Component<CardProps, CardState> {
     this.handleOnClickCard = this.handleOnClickCard.bind(this);
   }
 
-
   private handleOnClickCard() {
-    this.setState(state => (
-      {
-        isOpen: !state.isOpen,
-      }
-    ));
+    const {
+      disabled,
+      onClick,
+    } = this.props;
+
+    const {
+      isOpen,
+    } = this.state;
+
+    if (!disabled || isOpen) {
+      this.setState(state => (
+        {
+          isOpen: !state.isOpen,
+        }
+      ));
+
+      onClick();
+    }
   }
 
   public render() {
