@@ -11,9 +11,12 @@
 
 import Card from 'components/Card';
 import TopBar from 'components/TopBar';
+import { shuffle as _shuffle } from 'lodash';
 import React, { useReducer, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
+import { CardModel, mapCardValueToCardModel } from '../../types/CardModel';
+import { CARD_SET, RESET_GAME, UPDATE_CARD_LIST } from './constants';
 import messages from './messages';
 import homeReducer, { initialState } from './reducer';
 
@@ -30,14 +33,33 @@ type HomePageProps = HomePagePropsFromState & HomePagePropsFromDispatch;
 const CardListWrapper = styled.div`
   display: flex;
   padding: 30px;
+  flex-wrap: wrap;
+  margin: -10px;
+  width: 700px;
+
+  > * {
+    flex-basis: 140px;
+    margin: 10px;
+  }
 `;
 
 const HomePage: React.FC<HomePageProps> = ({  }) => {
   const [clickCount, setClickCount] = useState<number>(0);
-  const [state, dispatch] = useReducer(homeReducer, initialState);
+  const [{ cardList }, dispatch] = useReducer(homeReducer, initialState);
 
   function handleRestart() {
     setClickCount(0);
+
+    const cardList: CardModel[] = _shuffle(CARD_SET).map(value => mapCardValueToCardModel(value));
+    dispatch({ cardList, type: UPDATE_CARD_LIST });
+  }
+
+  function renderCardNodeList() {
+    return cardList.map((card: CardModel, index) => (
+      <Card key={`${card.value}-${index}`}>
+        {card.value}
+      </Card>
+    ));
   }
 
   return (
@@ -51,9 +73,10 @@ const HomePage: React.FC<HomePageProps> = ({  }) => {
         onClickStart={handleRestart}
       />
       <CardListWrapper>
-        <Card>
-          A
-        </Card>
+        {
+          cardList &&
+          renderCardNodeList()
+        }
       </CardListWrapper>
     </div>
   );

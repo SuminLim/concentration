@@ -18,7 +18,7 @@ function languageProviderReducer(
   switch (action.type) {
     case ActionTypes.CHANGE_LOCALE:
       return {
-        locale: action.payload,
+        locale: action.locale,
       };
     default:
       return state;

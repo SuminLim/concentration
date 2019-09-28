@@ -12,7 +12,7 @@ describe('languageProviderReducer', () => {
     expect(
       languageProviderReducer(undefined, {
         type: ActionTypes.CHANGE_LOCALE,
-        payload: 'de',
+        locale: 'de',
       }),
     ).toEqual({
       locale: 'de',
