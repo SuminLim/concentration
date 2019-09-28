@@ -3,9 +3,9 @@
  * LanguageProvider reducer
  *
  */
-import ActionTypes from './constants';
-import { ContainerState, ContainerActions } from './types';
 import { DEFAULT_LOCALE } from '../../i18n';
+import ActionTypes from './constants';
+import { ContainerActions, ContainerState } from './types';
 
 export const initialState: ContainerState = {
   locale: DEFAULT_LOCALE,

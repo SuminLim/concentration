@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { IntlProvider } from 'react-intl';
 
 import { makeSelectLocale } from './selectors';
 

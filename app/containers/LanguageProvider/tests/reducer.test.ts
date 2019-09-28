@@ -1,5 +1,5 @@
-import languageProviderReducer from '../reducer';
 import ActionTypes from '../constants';
+import languageProviderReducer from '../reducer';
 
 describe('languageProviderReducer', () => {
   it('returns the initial state', () => {
