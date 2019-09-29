@@ -11,24 +11,14 @@
 
 import Card from 'components/Card';
 import TopBar from 'components/TopBar';
-import { get as _get, head as _head, shuffle as _shuffle } from 'lodash';
+import { shuffle as _shuffle } from 'lodash';
 import React, { useReducer, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { CardModel, mapCardValueToCardModel } from '../../types/CardModel';
-import { CARD_SET, RESET_GAME, UPDATE_CARD_LIST } from './constants';
+import { CARD_SET, UPDATE_CARD_LIST } from './constants';
 import messages from './messages';
 import homeReducer, { initialState } from './reducer';
-
-interface HomePagePropsFromState {
-
-}
-
-interface HomePagePropsFromDispatch {
-
-}
-
-type HomePageProps = HomePagePropsFromState & HomePagePropsFromDispatch;
 
 const CardListWrapper = styled.div`
   display: flex;
@@ -43,7 +33,7 @@ const CardListWrapper = styled.div`
   }
 `;
 
-const HomePage: React.FC<HomePageProps> = ({  }) => {
+const HomePage: React.FC = () => {
   const [clickCount, setClickCount] = useState<number>(0);
   const [openedCard, setOpenedCard] = useState<CardModel>();
   const [{ cardList }, dispatch] = useReducer(homeReducer, initialState);
