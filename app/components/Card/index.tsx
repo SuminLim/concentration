@@ -1,27 +1,25 @@
+import bind from 'bind-decorator';
 import * as React from 'react';
 import styled from 'styled-components';
 
 interface CardProps {
   children: string;
 
-  disabled: boolean;
+  isOpen: boolean;
+  isHit: boolean;
 
   onClick: () => void;
 }
 
-interface CardState {
-  isOpen: boolean;
-}
-
-const Wrapper = styled.div<{ isOpen: boolean }>`
+const Wrapper = styled.div<{ isOpen: boolean, isHit?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 140px;
   height: 180px;
-  border: 1px solid;
+  border: 1px solid ${({ isHit }) => isHit && 'green'};
   border-radius: 5px;
-  cursor: pointer;
+  cursor: ${({ isOpen, isHit }) => isOpen || isHit ? 'not-allowed' : 'pointer'};
 
   :hover {
     background-color: lightskyblue;
@@ -32,34 +30,16 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   `}
 `;
 
-class Card extends React.Component<CardProps, CardState> {
-  public readonly state: Readonly<CardState> = {
-    isOpen: false,
-  };
-
-  constructor(props: CardProps) {
-    super(props);
-
-    this.handleOnClickCard = this.handleOnClickCard.bind(this);
-  }
-
+class Card extends React.Component<CardProps> {
+  @bind
   private handleOnClickCard() {
     const {
-      disabled,
+      isOpen,
+      isHit,
       onClick,
     } = this.props;
 
-    const {
-      isOpen,
-    } = this.state;
-
-    if (!disabled || isOpen) {
-      this.setState(state => (
-        {
-          isOpen: !state.isOpen,
-        }
-      ));
-
+    if (!isHit && !isOpen) {
       onClick();
     }
   }
@@ -67,14 +47,14 @@ class Card extends React.Component<CardProps, CardState> {
   public render() {
     const {
       children,
-    } = this.props;
-    const {
       isOpen,
-    } = this.state;
+      isHit,
+    } = this.props;
 
     return (
       <Wrapper
         isOpen={isOpen}
+        isHit={isHit}
         onClick={this.handleOnClickCard}
       >
         {
